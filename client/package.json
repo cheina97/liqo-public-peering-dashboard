@@ -1,0 +1,87 @@
+{
+  "name": "liqo_dashboard_fe",
+  "version": "0.1.0",
+  "proxy": "https://liqo-dashboard.crownlabs.polito.it",
+  "private": true,
+  "dependencies": {
+    "@types/react-icons": "^3.0.0",
+    "bootstrap": "^5.2.0",
+    "chart.js": "^3.9.1",
+    "dayjs": "^1.11.5",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-chartjs-2": "^4.3.1",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
+    "react-responsive": "^9.0.0-beta.10",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "react/no-multi-comp": "error",
+      "react/jsx-pascal-case": "error",
+      "react/prop-types": "off",
+      "no-nested-ternary": "off",
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "error",
+            "info"
+          ]
+        }
+      ],
+      "react/jsx-indent": "off",
+      "react/jsx-wrap-multilines": [
+        "error",
+        {
+          "declaration": false
+        }
+      ]
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.0.6",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.7.1"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "endOfLine": "lf"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,graphql}": [
+      "prettier --write"
+    ]
+  }
+}

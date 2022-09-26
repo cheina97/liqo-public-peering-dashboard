@@ -1,0 +1,30 @@
+.sidebar {
+    position: fixed;
+    margin-top: 56px;
+    bottom: 0;
+    left: 0;
+    min-height: calc(100vh - 56px) !important;
+    z-index: 100;
+    padding: 40px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.nav-pills .nav-link.active {
+    background-color: rgb(57, 92, 179);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        margin-top: 56px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        padding: unset !important;
+        bottom: unset;
+        min-height: unset !important;
+        z-index: 100;
+        padding: 40px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    }
+}
