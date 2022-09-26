@@ -1,0 +1,33 @@
+{{- $top := . -}}
+{{- range $ingress := .Values.ingresses -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: {{ $top.Values.namespace }}
+  name: {{ $top.Values.app }}-{{ $ingress.name }}
+  {{- if $ingress.annotations }}
+  annotations: 
+  {{ toYaml $ingress.annotations | indent 2}}
+  {{- end }}
+spec:
+  rules:
+  {{- if not $top.Values.local }}
+  - host: {{ $top.Values.host }}
+    http:
+  {{- else  }}
+  - http:
+  {{- end }}
+      paths:
+      - path: {{ $ingress.path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $ingress.service.name }}
+            port:
+              number: {{ $ingress.service.port }}
+  {{- if and ($top.Values.tls) (not $top.Values.local) }}
+  tls: 
+  {{- toYaml $top.Values.tls | nindent 4 }}
+  {{ end }}
+{{ end }}
