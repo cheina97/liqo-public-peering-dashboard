@@ -1,12 +1,16 @@
+{{- $clusterRoleBinding := (merge (dict "name" "clusterrolebinding" "module" "dashboard") .) -}}
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Values.app }}
+  name: {{ include "chart.fullname" $clusterRoleBinding }}
+  labels:
+    {{- include "chart.labels" $clusterRoleBinding | nindent 4}}
 subjects:
-  - namespace: {{ .Values.namespace }}
+  - namespace: {{ .Release.Namespace }}
     kind: ServiceAccount
-    name: {{ .Values.app }}
+    name: liqo-dashboard-sa
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Values.app }}
+  name: {{ include "chart.fullname" $clusterRoleBinding }}

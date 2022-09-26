@@ -1,0 +1,34 @@
+{{- $backendDeployment := (merge (dict "name" "backend" "module" "dashboard") .) -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.prefixedName" $backendDeployment }}
+  labels:
+    {{- include "chart.labels" $backendDeployment | nindent 4}}
+spec:
+  replicas: {{ .Values.backend.deployment.replicas }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" $backendDeployment | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" $backendDeployment | nindent 8}}
+    spec:
+      serviceAccount: liqo-dashboard-sa
+      containers:
+      - name: backend-container
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.backend.deployment.imageTag }}
+        command: 
+        - /main
+        {{- if .Values.backend.deployment.args }}
+        args: {{- toYaml .Values.backend.deployment.args | nindent 8 }}
+        {{- end }}
+        env:
+        - name: SERVER_ADDR
+          value: :{{ .Values.backend.port }}
+        {{- if .Values.backend.deployment.env}}
+        {{- toYaml .Values.backend.deployment.env | nindent 8 }}
+        {{ end }}

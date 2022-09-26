@@ -43,20 +43,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels
+Selector labels, it accepts a dict which contains fields "name" and "module"
 */}}
 {{- define "chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chart.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ quote .name }}
+app.kubernetes.io/component: {{ quote .module }}
+app.kubernetes.io/instance: {{ quote (printf "%s-%s" .Release.Name .name) }}
+app.kubernetes.io/part-of: {{ quote (include "chart.name" .) }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Create a name prefixed with the chart name, it accepts a dict which contains the field "name".
 */}}
-{{- define "chart.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "chart.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
+{{- define "chart.prefixedName" -}}
+{{- printf "%s-%s" (include "chart.name" .) .name }}
 {{- end }}

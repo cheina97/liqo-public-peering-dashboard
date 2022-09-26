@@ -1,1 +1,5 @@
-{{ .Chart.Name }} {{ .Chart.Version }} installed and the release is called {{ .Release.Name }}
+{{ .Chart.Name }} {{ .Chart.Version }} installed and the release is called {{ .Release.Name }}.
+All the resources have been deployed correctly in the {{ if not .Release.namespace }}{{ print "default" }}{{ else }}{{ print "%s" .Release.namespace }}{{ end }} namespace
+The dashboard is available at {{ if .Values.tls.secretName }}{{ print "https://" }}{{ else }}{{ print "http://" }}{{ end }}{{ if .Values.host }}{{ .Values.host }}{{ else }}{{ print "localhost" }}{{ end }}
+
+Remember that the dashboard works if and only if liqo is installed on the cluster

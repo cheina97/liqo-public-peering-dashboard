@@ -2,11 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-app: liqo-dashboard
-replicaCount: 1
-namespace: liqo-dashboard
-host: liqo-dashboard.crownlabs.polito.it
-local: false
+host: ""
 
 image:
   repository: lucarocco97
@@ -14,65 +10,32 @@ image:
   name: liqo-dashboard
 
 tls:
-- hosts:
-  - liqo-dashboard.crownlabs.polito.it
-  secretName: liqo-dashboard-app-certificate
+  secretName: ""
 
-rbac:
-  create: true
+backend:
+  port: 8080
+  deployment:
+    imageTag: backend-v1
+    replicas: 1
+    args:
+    - --v=9
+    env: []
+  ingress:
+    annotations: {}
+    path: /api
+  service:
+    type: NodePort
 
-clusterRole:
-  roles:
-  - apiGroups: [""]
-    resources: ["nodes", "pods"]
-    verbs: ["get", "watch", "list"]
-  - apiGroups: ["discovery.liqo.io"]
-    resources: ["foreignclusters"]
-    verbs: ["get", "watch", "list"]
-  - apiGroups: ["sharing.liqo.io"]
-    resources: ["resourceoffers"]
-    verbs: ["get", "watch", "list"]
-  - apiGroups: ["metrics.k8s.io"]
-    resources: ["pods"]
-    verbs: ["get", "watch", "list"]
-
-deployments:
-  - name: fe
-    spec:
-      containerName: frontend
-      imageTag: client-latest
-  - name: be
-    spec:
-      containerName: backend
-      imageTag: server-latest
-      command: 
-      - /main
-      args:
-      - --v=5
-      env:
-      - name: SERVER_ADDR
-        value: ":8080"
-
-ingresses:
-  - name: fe
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-production
+frontend:
+  deployment:
+    imageTag: frontend-v1
+    replicas: 1
+  ingress:
+    annotations: {}
+    path: /
     service:
-      name: liqo-dashboard-fe
       port: 8080
-  - name: be
-    service:
-      name: liqo-dashboard-be
-      port: 8080
-
-services:
-  - name: fe
+  service:
     type: NodePort
     ports:
     - port: 8080
-    appSelector: fe
-  - name: be
-    type: NodePort
-    ports: 
-    - port: 8080
-    appSelector: be
