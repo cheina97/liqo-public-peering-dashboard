@@ -10,6 +10,6 @@ metadata:
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
-  {{ toYaml .Values.frontend.service.ports }}
+    - port: {{ .Values.frontend.port }}
   selector:
     {{- include "chart.selectorLabels" $frontendDeployment | nindent 4}}

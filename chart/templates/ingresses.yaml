@@ -2,6 +2,9 @@
 {{- $backendService := (merge (dict "name" "backend-service" "module" "dashboard") .) -}}
 {{- $frontendService := (merge (dict "name" "frontend-service" "module" "dashboard") .) -}}
 
+{{- if not .Values.host }}
+{{- fail "host must be set. You can use * to catch every host including localhost" }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -14,34 +17,26 @@ metadata:
   {{- end }}
 spec:
   rules:
-  {{- if .Values.host }}
-  - host: {{ .Values.host }}
+  - host: {{ quote .Values.host }}
     http:
-  {{- else  }}
-  - http:
-  {{- end }}
       paths:
-      - path: {{ .Values.backend.ingress.path }}
+      - path: /api
         pathType: Prefix
         backend:
           service:
             name: {{ include "chart.prefixedName" $backendService }}
             port:
               number: {{ .Values.backend.port }}
-  {{- if .Values.host }}
-  - host: {{ .Values.host }}
+  - host: {{ quote .Values.host }}
     http:
-  {{- else  }}
-  - http:
-  {{- end }}
       paths:
-      - path: {{ .Values.frontend.ingress.path }}
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: {{ include "chart.prefixedName" $frontendService }}
             port:
-              number: {{ .Values.frontend.ingress.service.port }}
+              number: {{ .Values.frontend.port }}
       
   {{- if and (.Values.host) (.Values.tls.secretName) }}
   tls:

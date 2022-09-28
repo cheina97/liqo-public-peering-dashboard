@@ -2,40 +2,43 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-host: ""
+# -- Define a host for the ingress. It must match with the TLS certificate's host if present
+host: "*"
 
 image:
-  repository: lucarocco97
+  # -- Pull polocy for dashboard pods
   pullPolicy: Always
-  name: liqo-dashboard
+  # -- Tag to get other versions of the image
+  tag: "0.5"
 
 tls:
+  # -- Name of the secret which contains the TLS certificate
   secretName: ""
 
 backend:
+  # -- Backend dashboard image name  
+  imageName: lucarocco97/liqo-dashboard-backend
+  # -- Server's port
   port: 8080
-  deployment:
-    imageTag: backend-v1
-    replicas: 1
-    args:
-    - --v=9
-    env: []
+  # -- Number of replicas of backend's pods
+  replicas: 1
   ingress:
+    # -- Backend ingress' annotations
     annotations: {}
-    path: /api
   service:
-    type: NodePort
+    # -- Type of service. A ClusterIP service is enough because we are using an ingress
+    type: ClusterIP
 
 frontend:
-  deployment:
-    imageTag: frontend-v1
-    replicas: 1
+  # -- Frontend dashboard image name
+  imageName: lucarocco97/liqo-dashboard-frontend
+  # -- Frontend port
+  port: 8080
+  # -- Number of replicas of frontend's pods
+  replicas: 1
   ingress:
+    # -- Frontend ingress' annotations
     annotations: {}
-    path: /
-    service:
-      port: 8080
   service:
-    type: NodePort
-    ports:
-    - port: 8080
+    # -- Type of service. A ClusterIP service is enough because we are using an ingress
+    type: ClusterIP

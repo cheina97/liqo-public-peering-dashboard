@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "chart.labels" $frontendDeployment | nindent 4}}
 spec:
-  replicas: {{ .Values.frontend.deployment.replicas }}
+  replicas: {{ .Values.frontend.replicas }}
   selector:
     matchLabels:
       {{- include "chart.selectorLabels" $frontendDeployment | nindent 6}}
@@ -16,8 +16,7 @@ spec:
       labels:
         {{- include "chart.selectorLabels" $frontendDeployment | nindent 8}}
     spec:
-      serviceAccount: liqo-dashboard-sa
       containers:
       - name: frontend-container
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.frontend.deployment.imageTag }}
+        image: {{ .Values.frontend.imageName }}:{{ .Values.image.tag }}
