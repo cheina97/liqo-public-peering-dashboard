@@ -1,0 +1,22 @@
+{{- $frontendDeployment := (merge (dict "name" "frontend" "module" "dashboard") .) -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.prefixedName" $frontendDeployment }}
+  labels:
+    {{- include "chart.labels" $frontendDeployment | nindent 4}}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" $frontendDeployment | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" $frontendDeployment | nindent 8}}
+    spec:
+      containers:
+      - name: frontend-container
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: {{ .Values.frontend.imageName }}:{{ .Values.image.tag }}

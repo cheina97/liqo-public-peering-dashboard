@@ -1,0 +1,21 @@
+{{- $clusterRole := (merge (dict "name" "clusterrole" "module" "dashboard") .) -}}
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "chart.fullname" $clusterRole }}
+  labels:
+    {{- include "chart.labels" $clusterRole | nindent 4}}
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "pods"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: ["discovery.liqo.io"]
+  resources: ["foreignclusters"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: ["sharing.liqo.io"]
+  resources: ["resourceoffers"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]

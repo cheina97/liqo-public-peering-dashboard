@@ -1,0 +1,47 @@
+{{- $ingress := (merge (dict "name" "ingress" "module" "dashboard") .) -}}
+{{- $backendService := (merge (dict "name" "backend-service" "module" "dashboard") .) -}}
+{{- $frontendService := (merge (dict "name" "frontend-service" "module" "dashboard") .) -}}
+
+{{- if not .Values.host }}
+{{- fail "host must be set. You can use * to catch every host including localhost" }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "chart.prefixedName" $ingress }}
+  labels:
+    {{- include "chart.labels" $ingress | nindent 4}}
+  {{- if .Values.backend.ingress.annotations }}
+  annotations: 
+  {{ toYaml .Values.backend.ingress.annotations | indent 2}}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ quote .Values.host }}
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "chart.prefixedName" $backendService }}
+            port:
+              number: {{ .Values.backend.port }}
+  - host: {{ quote .Values.host }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "chart.prefixedName" $frontendService }}
+            port:
+              number: {{ .Values.frontend.port }}
+      
+  {{- if and (.Values.host) (.Values.tls.secretName) }}
+  tls:
+  - hosts:
+    - {{ .Values.host }}
+  secretName: {{ .Values.tls.secretName }}
+  {{- toYaml .Values.tls | nindent 4 }}
+  {{ end }}

@@ -1,0 +1,15 @@
+{{- $frontendService := (merge (dict "name" "frontend-service" "module" "dashboard") .) -}}
+{{- $frontendDeployment := (merge (dict "name" "frontend" "module" "dashboard") .) -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.prefixedName" $frontendService }}
+  labels:
+    {{- include "chart.labels" $frontendService | nindent 4}}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - port: {{ .Values.frontend.port }}
+  selector:
+    {{- include "chart.selectorLabels" $frontendDeployment | nindent 4}}
