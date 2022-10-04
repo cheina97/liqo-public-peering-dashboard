@@ -28,6 +28,7 @@ helm install liqo-dashboard --set host=<<host_here>> ./chart
 ```
 
 Additionally, if you want to use TLS encryption to enable HTTPS you should set tls.secretName as follows
+
 ```bash
 helm install liqo-dashboard --set host=<<host_here>> --tls.secretName=<<certificate_secret_here>> ./chart
 ```
@@ -36,4 +37,4 @@ You can find the complete list of additional values [here](./chart/README.md)
 
 ## Contributing
 
-All contributors are excitedly welcome. If you notice a bug you can open an issue to let us know or you can figure out how to fix it and open a pull request. Inside [client](./client/README.md)[ readme](./client/README.md) and [server readme](./server/README.md) you can find all the information you need to start coding on your machine and run the application locally.
+All contributors are excitedly welcome. If you notice a bug you can open an issue to let us know or you can figure out how to fix it and open a pull request.
