@@ -1,4 +1,4 @@
-# Liqo Peering Dashboard Server
+# Liqo Resources Dashboard Server
 
 The server is written in golang and to run it locally you need to execute the run command in a console where you previously exported a KUBECONFIG variable.
 
