@@ -22,6 +22,9 @@ spec:
       - name: backend-container
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: {{ .Values.backend.imageName }}:{{ .Values.image.tag }}
+        ports:
+          - name: backend-port
+            containerPort: 8080
         env:
         - name: SERVER_ADDR
           value: :{{ .Values.backend.port }}
