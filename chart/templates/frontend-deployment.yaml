@@ -20,3 +20,9 @@ spec:
       - name: frontend-container
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: {{ .Values.frontend.imageName }}:{{ .Values.image.tag }}
+        ports:
+          - name: frontend-port
+            containerPort: 8080
+        env:
+        - name: GOOGLE_ANALYTICS_TRACKING_ID
+          value: {{ .Values.frontend.gaTrackingID }}

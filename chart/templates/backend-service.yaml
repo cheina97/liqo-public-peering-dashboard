@@ -11,5 +11,6 @@ spec:
   type: {{ .Values.backend.service.type }}
   ports:
     - port: {{ .Values.backend.port }}
+      targetPort: backend-port
   selector:
     {{- include "chart.selectorLabels" $backendDeployment | nindent 4}}
