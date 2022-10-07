@@ -104,6 +104,7 @@ function ClusterResourcesChart(props: IClusterResourcesChart) {
             <Doughnut
               data={data}
               options={{
+                animation: false,
                 circumference: 270,
                 rotation: -135,
                 responsive: true,

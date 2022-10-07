@@ -5,7 +5,7 @@ import ClusterHeading from '../ClusterHeader';
 import ClusterResourcesChart from '../ClusterResourceChart';
 import { ForeignCluster, ResourcesType } from '../../../api/types';
 import { useMediaQuery } from 'react-responsive';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export interface ICluster {
   cluster: ForeignCluster;
@@ -28,6 +28,11 @@ function Cluster(props: ICluster) {
               {(!isSingleCol || cluster.outgoingResources) && (
                 <Col lg={6} sm={12} className={'pt-4 pb-4'}>
                   <ClusterResourcesChart
+                    key={
+                      cluster?.outgoingResources?.usedCpus +
+                      cluster?.outgoingResources?.usedMemory +
+                      Math.random()
+                    }
                     resourcesType={ResourcesType.Outgoing}
                     resourcesMetrics={cluster.outgoingResources}
                     borderColor={'rgb(40, 173, 0)'}
@@ -38,6 +43,11 @@ function Cluster(props: ICluster) {
               {(!isSingleCol || cluster.incomingResources) && (
                 <Col lg={6} sm={12} className={'pt-4 pb-4'}>
                   <ClusterResourcesChart
+                    key={
+                      cluster?.incomingResources?.usedCpus +
+                      cluster?.incomingResources?.usedMemory +
+                      Math.random()
+                    }
                     resourcesType={ResourcesType.Incoming}
                     resourcesMetrics={cluster.incomingResources}
                     borderColor={'rgb(255, 161, 0)'}

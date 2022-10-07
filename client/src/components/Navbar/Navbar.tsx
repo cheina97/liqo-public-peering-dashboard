@@ -3,6 +3,9 @@ import Logo from '../../images/logo.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useMediaQuery } from 'react-responsive';
+import ReactGA from 'react-ga';
+
+const win = window as any;
 
 export interface ILiqoNavbar {
   onHamburgerClick: () => void;
@@ -12,6 +15,11 @@ export interface ILiqoNavbar {
 function LiqoNavbar(props: ILiqoNavbar) {
   const { onHamburgerClick, isHamburgerOpened } = props;
   const isSingleColumn = useMediaQuery({ query: '(max-width: 768px)' });
+
+  if (win._env_ && win._env_.GOOGLE_ANALYTICS_TRACKING_ID) {
+    ReactGA.initialize((window as any)._env_.GOOGLE_ANALYTICS_TRACKING_ID);
+    ReactGA.pageview(win.location.pathname);
+  }
 
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
