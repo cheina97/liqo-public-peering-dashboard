@@ -24,7 +24,7 @@ When the dashboard is deployed on a production environment, you shall configure 
 
 ```bash
 helm install liqo-dashboard --set host=<<host_here>> ./chart --namespace <<namespace_name>> --create-namespace
-```asa
+```
 
 Additionally, if you want to use TLS encryption to enable HTTPS you should set tls.secretName as follows:
 
