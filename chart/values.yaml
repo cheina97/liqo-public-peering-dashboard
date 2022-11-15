@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # -- Define a host for the ingress. It must match with the TLS certificate's host if present
-host: ""
+host: "liqo-dashboard.top-ix.org"
 
 image:
   # -- Pull polocy for dashboard pods
@@ -22,9 +22,6 @@ backend:
   port: 8080
   # -- Number of replicas of backend's pods
   replicas: 1
-  ingress:
-    # -- Backend ingress' annotations
-    annotations: {}
   service:
     # -- Type of service. A ClusterIP service is enough because we are using an ingress
     type: ClusterIP
@@ -38,9 +35,9 @@ frontend:
   port: 8080
   # -- Number of replicas of frontend's pods
   replicas: 1
-  ingress:
-    # -- Frontend ingress' annotations
-    annotations: {}
   service:
     # -- Type of service. A ClusterIP service is enough because we are using an ingress
     type: ClusterIP
+
+ingress:
+  annotations: {}
