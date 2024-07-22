@@ -1,5 +1,11 @@
 # Liqo Public Peering Dashboard
 
+⚠️ This Project is Deprecated ⚠️
+
+Please note: This repository is no longer actively maintained and is considered deprecated. We encourage you to explore alternative solutions or repositories that are actively developed.
+
+------
+
 The *Liqo public peering dashboard* is an open-source, web-based dashboard that exposes the status of the Liqo peerings established with the current cluster (both incoming and outgoing), and the amount of resources (i.e., in terms of vCPUs and memory) used/offered in each peering.
 
 ![Preview](./doc/images/screenshot.png)
